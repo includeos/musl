@@ -127,6 +127,18 @@ int posix_fallocate(int, off_t, off_t);
 #define F_SEAL_GROW	0x0004
 #define F_SEAL_WRITE	0x0008
 
+#define F_GET_RW_HINT		1035
+#define F_SET_RW_HINT		1036
+#define F_GET_FILE_RW_HINT	1037
+#define F_SET_FILE_RW_HINT	1038
+
+#define RWF_WRITE_LIFE_NOT_SET	0
+#define RWH_WRITE_LIFE_NONE	1
+#define RWH_WRITE_LIFE_SHORT	2
+#define RWH_WRITE_LIFE_MEDIUM	3
+#define RWH_WRITE_LIFE_LONG	4
+#define RWH_WRITE_LIFE_EXTREME	5
+
 #define DN_ACCESS	0x00000001
 #define DN_MODIFY	0x00000002
 #define DN_CREATE	0x00000004
@@ -143,12 +155,18 @@ int lockf(int, int, off_t);
 #define F_OWNER_PID 1
 #define F_OWNER_PGRP 2
 #define F_OWNER_GID 2
+struct file_handle {
+	unsigned handle_bytes;
+	int handle_type;
+	unsigned char f_handle[];
+};
 struct f_owner_ex {
 	int type;
 	pid_t pid;
 };
 #define FALLOC_FL_KEEP_SIZE 1
 #define FALLOC_FL_PUNCH_HOLE 2
+#define MAX_HANDLE_SZ 128
 #define SYNC_FILE_RANGE_WAIT_BEFORE 1
 #define SYNC_FILE_RANGE_WRITE 2
 #define SYNC_FILE_RANGE_WAIT_AFTER 4
@@ -158,6 +176,8 @@ struct f_owner_ex {
 #define SPLICE_F_GIFT 8
 int fallocate(int, int, off_t, off_t);
 #define fallocate64 fallocate
+int name_to_handle_at(int, const char *, struct file_handle *, int *, int);
+int open_by_handle_at(int, struct file_handle *, int);
 ssize_t readahead(int, off_t, size_t);
 int sync_file_range(int, off_t, off_t, unsigned);
 ssize_t vmsplice(int, const struct iovec *, size_t, unsigned);

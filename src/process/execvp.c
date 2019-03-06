@@ -3,7 +3,6 @@
 #include <unistd.h>
 #include <errno.h>
 #include <limits.h>
-#include "libc.h"
 
 extern char **__environ;
 
@@ -39,8 +38,15 @@ int __execvpe(const char *file, char *const argv[], char *const envp[])
 		b[z-p] = '/';
 		memcpy(b+(z-p)+(z>p), file, k+1);
 		execve(b, argv, envp);
-		if (errno == EACCES) seen_eacces = 1;
-		else if (errno != ENOENT) return -1;
+		switch (errno) {
+		case EACCES:
+			seen_eacces = 1;
+		case ENOENT:
+		case ENOTDIR:
+			break;
+		default:
+			return -1;
+		}
 		if (!*z++) break;
 	}
 	if (seen_eacces) errno = EACCES;
