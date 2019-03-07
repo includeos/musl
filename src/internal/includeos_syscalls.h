@@ -191,6 +191,7 @@ __includeos(SYS_sched_setparam);
 __includeos(SYS_sched_setscheduler);
 __includeos(SYS_select);
 __includeos(SYS_sendfile);
+__includeos(SYS_set_thread_area);
 __includeos(SYS_setdomainname);
 __includeos(SYS_setfsgid);
 __includeos(SYS_setfsuid);
