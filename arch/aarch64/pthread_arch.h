@@ -1,7 +1,8 @@
+extern char *get_tpidr();
+
 static inline struct pthread *__pthread_self()
 {
-	char *self;
-	__asm__ __volatile__ ("mrs %0,tpidr_el0" : "=r"(self));
+	char *self=get_tpidr();
 	return (void*)(self + 16 - sizeof(struct pthread));
 }
 

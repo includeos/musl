@@ -1,5 +1,9 @@
 #pragma once
 
+#if !defined(SYS_set_thread_area)
+ #define SYS_set_thread_area
+#endif
+
 #if !defined(SYS_fork)
   #define SYS_fork
 #endif
@@ -37,6 +41,7 @@ extern long syscall_SYS_msgget(long,...);
 extern long syscall_SYS_munlockall();
 extern long syscall_SYS_pause();
 extern long syscall_SYS_poll(long,...);
+extern long syscall_SYS_ppoll(long,...);
 extern long syscall_SYS_removexattr(long,...);
 extern long syscall_SYS_rt_sigqueueinfo(long, ...);
 extern long syscall_SYS_sched_getaffinity(long, ...);
