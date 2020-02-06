@@ -33,8 +33,6 @@ hidden long __syscall_ret(unsigned long),
 	__syscall_cp(syscall_arg_t, syscall_arg_t, syscall_arg_t, syscall_arg_t,
 	             syscall_arg_t, syscall_arg_t, syscall_arg_t);
 
-#define __SYSCALL_CONCAT_X(a,b) a##b
-#define __SYSCALL_CONCAT(a,b) __SYSCALL_CONCAT_X(a,b)
 #define __syscall(a,...) syscall_##a(__VA_ARGS__)
 #define syscall(a,...) __syscall_ret(syscall_##a(__VA_ARGS__))
 
